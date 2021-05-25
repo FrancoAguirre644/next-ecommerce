@@ -4,13 +4,15 @@ import Link from 'next/link'
 export const Signin = () => {
     return (
         <>
-            <Head>Sign in</Head>
+            <Head>
+                <title>Sign in</title>
+            </Head>
             <div className="row">
                 <div className="col-md-6 mx-auto">
                     <form className=" my-4" style={{maxWidth: '500px'}}>
                         <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Email address</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"></input>
+                            <input type="email" className="form-control" id="exampleInputEmail1"></input>
                             <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                         <div className="form-group">
