@@ -16,15 +16,15 @@ const NavBar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link href="/">
-                <a className="navbar-brand" href="#">Navbar</a>
+                <a className="navbar-brand" href="#">E-Commerce</a>
             </Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul className="navbar-nav">
-                    <li className={"nav-item " + isActive('/card')}>
-                        <Link href="/card">
+                    <li className={"nav-item " + isActive('/cart')}>
+                        <Link href="/cart">
                             <a className="nav-link"><i className="fas fa-shopping-cart"></i> Cart</a>
                         </Link>
                     </li>
