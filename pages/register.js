@@ -23,7 +23,7 @@ export const Register = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         const errorMsg = valid(name, email, password, cf_password);
-
+        
         if(errorMsg) {
             return dispatch({ type: 'NOTIFY', payload: {error: errorMsg}})
         } 
