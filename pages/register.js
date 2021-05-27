@@ -13,7 +13,7 @@ export const Register = () => {
     const [userData, setUserData] = useState(initialState)
     const { name, email, password, cf_password } = userData
 
-    const [state, dispatch] = useContext(DataContext)
+    const {state, dispatch} = useContext(DataContext)
 
     const handleChangeInput = e => {
         const { name, value } = e.target
@@ -34,7 +34,7 @@ export const Register = () => {
 
         if(res.err) return dispatch({ type:'NOTIFY', payload: {error: res.err}})
 
-        console.log(res)
+        return dispatch({ type:'NOTIFY', payload: {success: res.msg}})
     }
 
     return (
@@ -66,7 +66,7 @@ export const Register = () => {
                             <input type="password" className="form-control" name="cf_password" value={cf_password} onChange={handleChangeInput}></input>
                         </div>
 
-                        <button type="submit" className="btn btn-dark w-100">Login</button>
+                        <button type="submit" className="btn btn-dark w-100">Register</button>
                         <p className="my-2">
                             Already have an account?  
                             <Link href="/signin">

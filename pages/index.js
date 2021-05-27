@@ -19,8 +19,8 @@ const Home = (props) => {
           <div className="row justify-content-center mt-4">
             {
               products.map(product => (
-                <div className="col-md-3">
-                  <ProductItem product={product} key={product._id} />
+                <div className="col-md-3" key={product._id}>
+                  <ProductItem product={product} />
                 </div>
               ))
             }
