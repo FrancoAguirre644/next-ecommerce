@@ -8,7 +8,7 @@ const NavBar = () => {
 
     const router = useRouter();
     const { state, dispatch } = useContext(DataContext)
-    const { auth } = state
+    const { auth, cart } = state
 
     const isActive = (r) => {
         if (r === router.pathname) {
@@ -52,7 +52,22 @@ const NavBar = () => {
                 <ul className="navbar-nav">
                     <li className={"nav-item " + isActive('/cart')}>
                         <Link href="/cart">
-                            <a className="nav-link"><i className="fas fa-shopping-cart"></i> Cart</a>
+                            <a className="nav-link">
+                                <i className="fas fa-shopping-cart position-relative">
+                                    <span className="position-absolute"
+                                    style={{
+                                        borderRadius: '50%',
+                                        color: 'white',
+                                        padding: '3px 6px',
+                                        top: '-10px',
+                                        right: '-10px',
+                                        backgroundColor: 'red',
+                                        fontSize: '14px'
+                                    }}>
+                                        {cart.length}
+                                    </span>
+                                </i> Cart
+                            </a>
                         </Link>
                     </li>
 
