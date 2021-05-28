@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import '../styles/loading.css'
-import '../styles/products.css'
+import '../styles/product.css'
 import Layout from '../components/Layout'
 import { DataProvider } from '../store/GlobalState'
 
