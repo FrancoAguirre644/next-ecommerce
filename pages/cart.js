@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from 'react'
 import Head from 'next/head'
 import CartItem from '../components/CartItem'
 import Link from 'next/link'
-import { increse, decrease } from '../store/Actions'
 import { getData } from '../utils/fetchData'
+import PaypalBtn from './paypalBtn'
 
 const Cart = () => {
 
@@ -12,6 +12,10 @@ const Cart = () => {
     const { cart, auth } = state
 
     const [total, setTotal] = useState(0)
+
+    const [adress, setAdress] = useState('')
+    const [mobile, setMobile] = useState('')
+    const [payment, setPayment] = useState(false)
 
     useEffect(() => {
         const getTotal = () => {
@@ -29,14 +33,14 @@ const Cart = () => {
     useEffect(() => {
         const cartLocal = JSON.parse(localStorage.getItem('__next__cart01'));
 
-        if(cartLocal.length > 0 && cartLocal) {
+        if (cartLocal.length > 0 && cartLocal) {
             let newArr = []
 
             const updateCart = async () => {
-                for(const item of cartLocal) {
+                for (const item of cartLocal) {
                     const res = await getData(`product/${item._id}`)
-                    const {_id, title, images, price, inStock, sold} = res.product
-                    if(inStock > 0){
+                    const { _id, title, images, price, inStock, sold } = res.product
+                    if (inStock > 0) {
                         newArr.push({
                             _id, title, images, price, inStock, sold,
                             quantity: item.quantity > inStock - sold ? 1 : item.quantity
@@ -44,7 +48,7 @@ const Cart = () => {
                     }
                 }
 
-                dispatch({type: 'ADD_CART', payload: newArr})
+                dispatch({ type: 'ADD_CART', payload: newArr })
             }
 
             updateCart()
@@ -52,6 +56,12 @@ const Cart = () => {
         }
 
     }, [])
+
+    const handlePayment = () => {
+        if (!mobile || !adress)
+            return dispatch({ type: 'NOTIFY', payload: { error: 'Please add your address and mobile' } })
+        setPayment(true)
+    }
 
     if (cart.length === 0) {
         return (
@@ -84,17 +94,27 @@ const Cart = () => {
                 <form>
                     <h2 className="text-uppercase">Shipping</h2>
                     <label>Adress</label>
-                    <input className="form-control mb-2" name="address" id="address" />
+                    <input className="form-control mb-2" name="address" id="address" value={adress} onChange={e => setAdress(e.target.value)} />
 
                     <label>Mobile</label>
-                    <input className="form-control mb-2" name="mobile" id="mobile" />
+                    <input className="form-control mb-2" name="mobile" id="mobile" value={mobile} onChange={e => setMobile(e.target.value)} />
                 </form>
 
                 <h3>Total: <span className="text-info">${total}</span></h3>
 
-                <Link href={auth.user ? "#" : "/signin"}>
-                    <a className="btn btn-dark my-2">Proceed with payment</a>
-                </Link>
+                {
+                    payment
+                        ? <PaypalBtn total={total}
+                            adress={adress}
+                            mobile={mobile}
+                            state={state}
+                            dispatch={dispatch}
+                            />
+                        : <Link href={auth.user ? "#" : "/signin"}>
+                            <a className="btn btn-dark my-2" onClick={handlePayment}>Proceed with payment</a>
+                        </Link>
+                }
+
 
             </div>
 
