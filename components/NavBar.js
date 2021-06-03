@@ -26,7 +26,9 @@ const NavBar = () => {
                     {auth.user.name}
                 </a>
                 <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">Profile</a>
+                    <Link href="/profile">
+                        <a className="dropdown-item">Profile</a>
+                    </Link>
                     <a className="dropdown-item" style={{ cursor: 'pointer'}} onClick={handleLogout}>Logout</a>
                 </div>
             </li>
