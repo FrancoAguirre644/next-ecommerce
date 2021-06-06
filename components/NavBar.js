@@ -55,7 +55,7 @@ const NavBar = () => {
                     <li className={"nav-item " + isActive('/cart')}>
                         <Link href="/cart">
                             <a className="nav-link">
-                                <i className="fas fa-shopping-cart position-relative">
+                                <i className="fas fa-shopping-cart position-relative" aria-hidden="true">
                                     <span className="position-absolute"
                                     style={{
                                         borderRadius: '50%',
@@ -77,7 +77,7 @@ const NavBar = () => {
                         Object.keys(auth).length === 0
                             ? <li className={"nav-item " + isActive('/signin')}>
                                 <Link href="/signin">
-                                    <a className="nav-link"><i className="fas fa-user"></i> Sign in</a>
+                                    <a className="nav-link"><i className="fas fa-user" aria-hidden="true"></i> Sign in</a>
                                 </Link>
                             </li>
                             : loggedRouter()
