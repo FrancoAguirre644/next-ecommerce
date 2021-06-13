@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { DataContext } from '../../store/GlobalState'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -14,11 +14,12 @@ const DetailOrder = () => {
 
     const [orderDetail, setOrderDetail] = useState([])
 
-    useState(() => {
+    useEffect(() => {
         const newArr = orders.filter(order => order._id === router.query.id)
         setOrderDetail(newArr)
     }, [orders])
 
+    if(!auth.user) return null;
     return (
         <div>
             <Head>
@@ -31,7 +32,7 @@ const DetailOrder = () => {
                 </button>
             </div>
 
-            <OrderDatail orderDetail={orderDetail}/>
+            <OrderDatail orderDetail={orderDetail} state={state} dispatch={dispatch}/>
 
         </div>
     )

@@ -1,7 +1,31 @@
 import Link from 'next/link'
+import { updateItem } from '../store/Actions'
+import { patchData } from '../utils/fetchData'
 import PaypalBtn from './PaypalBtn'
 
-const OrderDetail = ({ orderDetail }) => {
+const OrderDetail = ({ orderDetail, state, dispatch }) => {
+
+    const { auth, orders } = state
+
+    const handleDelivered = (order) => {
+        dispatch({ type: 'NOTIFY', payload: { loading: true } })
+
+        patchData(`order/delivered/${order._id}`, null, auth.token)
+            .then(res => {
+                if (res.err) return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
+
+                const { paid, dateOfPayment, method, delivered } = res.result
+
+                dispatch(updateItem(orders, order._id, {
+                    ...order, paid, dateOfPayment, method, delivered
+                }, 'ADD_ORDERS'))
+
+                return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
+
+            })
+
+    }
+
     return (
         <>
             {
@@ -23,10 +47,22 @@ const OrderDetail = ({ orderDetail }) => {
                                     {
                                         order.delivered ? `Delivered on ${order.updatedAt}` : 'Not Delivered'
                                     }
-
+                                    {
+                                        auth.user.role === 'admin' && !order.delivered &&
+                                        <button className="btn btn-dark text-uppercase" onClick={() => handleDelivered(order)}>
+                                            Mark as delivered
+                                        </button>
+                                    }
                                 </div>
 
                                 <h3>Payment</h3>
+                                {
+                                    order.method && <h6>Method: <em>{order.method}</em> </h6>
+                                }
+                                {
+                                    order.paymentId &&  <p>PaymentId: <em>{order.paymentId}</em> </p>
+                                }
+
                                 <div className={`alert ${order.paid ? 'alert-success' : 'alert-danger'}
                                 d-flex justify-content-between align-items-center`}>
                                     {
@@ -62,9 +98,9 @@ const OrderDetail = ({ orderDetail }) => {
 
                             </div>
                         </div>
-                        
+
                         {
-                            !order.paid &&
+                            !order.paid && auth.user.role !== 'admin' &&
                             <div className="p-4">
                                 <h2 className="mb-4 text-uppercase">Total: ${order.total}</h2>
                                 <PaypalBtn order={order} />

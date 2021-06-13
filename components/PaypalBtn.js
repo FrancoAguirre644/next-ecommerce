@@ -11,8 +11,6 @@ const PaypalBtn = ({ order }) => {
     const { state, dispatch } = useContext(DataContext)
     const { auth, orders } = state
 
-    const router = useRouter()
-
     useEffect(() => {
         paypal.Buttons({
             createOrder: function (data, actions) {
@@ -33,19 +31,20 @@ const PaypalBtn = ({ order }) => {
                 return actions.order.capture().then(function (details) {
                     dispatch({ type: 'NOTIFY', payload: { loading: true } })
 
-                    patchData(`order/${order._id}`, null, auth.token)
-                        .then(res => {
-                            if (res.err) return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
+                    patchData(`order/payment/${order._id}`, {
+                        paymentId: details.payer.payer_id
+                    }, auth.token)
+                    .then(res => {
+                        if (res.err) return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
 
-                            dispatch(updateItem(orders, order._id, {
-                                ...order, paid: true, dateOfPayment: new Date().toISOString()
-                            }, 'ADD_ORDERS'))
+                        dispatch(updateItem(orders, order._id, {
+                            ...order, paid: true, dateOfPayment: new Date().toISOString(),
+                            paymentId: details.payer.payer_id, method: 'Paypal'
+                        }, 'ADD_ORDERS'))
 
-                            dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
+                        return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
 
-                            return router.push('/profile')
-
-                        })
+                    })
                     // This function shows a transaction success message to your buyer.
                 });
             }

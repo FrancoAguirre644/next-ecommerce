@@ -23,9 +23,9 @@ const getOrders = async (req, res) => {
         let orders
 
         if(result.role !== 'admin') {
-            orders = await Orders.find({user: result.id}).populate("user")
+            orders = await Orders.find({user: result.id}).populate("user", "-password")
         } else {
-            orders = await Orders.find()
+            orders = await Orders.find().populate("user", "-password")
         }
 
         res.json({orders})

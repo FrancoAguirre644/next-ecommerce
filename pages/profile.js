@@ -92,7 +92,6 @@ const Profile = () => {
 
         })
 
-        console.log(media)
     }
 
     if (!auth.user) return null;
