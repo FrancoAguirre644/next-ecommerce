@@ -11,7 +11,7 @@ const ProductItem = ({ product }) => {
     const userLink = () => {
         return (
             <>
-                <Link href={`product/${product._id}`}>
+                <Link href={`/product/${product._id}`}>
                     <a className="btn btn-info mr-1 flex-fill">View</a>
                 </Link>
                 <button className="btn btn-success ml-1 flex-fill" disabled={product.inStock === 0 ? true : false }
