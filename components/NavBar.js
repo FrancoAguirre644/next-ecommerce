@@ -49,7 +49,7 @@ const NavBar = () => {
             <Link href="/create">
                 <a className="dropdown-item">Products</a>
             </Link>
-            <Link href="/profile">
+            <Link href="/categories">
                 <a className="dropdown-item">Categories</a>
             </Link>
             </>

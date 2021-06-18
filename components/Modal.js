@@ -9,13 +9,20 @@ const Modal = () => {
 
     const { modal, auth } = state
 
-
     const handleSubmit = () => {
+
         if(modal.type === 'ADD_USERS') {
             deleteData(`user/${modal.id}`, auth.token) 
             .then(res => {
                 if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
+                return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
+            })
+        }
 
+        if(modal.type === 'ADD_CATEGORIES') {
+            deleteData(`category/${modal.id}`, auth.token) 
+            .then(res => {
+                if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
                 return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
             })
         }
