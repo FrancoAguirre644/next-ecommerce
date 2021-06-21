@@ -6,7 +6,7 @@ import { addToCart } from '../../store/Actions'
 const ProductItem = ({ product }) => {
 
     const { state, dispatch } = useContext(DataContext)
-    const { cart } = state
+    const { cart, auth } = state
 
     const userLink = () => {
         return (
@@ -14,9 +14,22 @@ const ProductItem = ({ product }) => {
                 <Link href={`/product/${product._id}`}>
                     <a className="btn btn-info mr-1 flex-fill">View</a>
                 </Link>
-                <button className="btn btn-success ml-1 flex-fill" disabled={product.inStock === 0 ? true : false }
-                onClick={() => dispatch(addToCart(product, cart))}>
+                <button className="btn btn-success ml-1 flex-fill" disabled={product.inStock === 0 ? true : false}
+                    onClick={() => dispatch(addToCart(product, cart))}>
                     Buy
+                </button>
+            </>
+        )
+    }
+
+    const adminLink = () => {
+        return (
+            <>
+                <Link href={`/create/${product._id}`}>
+                    <a className="btn btn-info mr-1 flex-fill">Edit</a>
+                </Link>
+                <button className="btn btn-danger ml-1 flex-fill">
+                    Delete
                 </button>
             </>
         )
@@ -39,7 +52,7 @@ const ProductItem = ({ product }) => {
                     </div>
                     <p className="card-text">{product.description}</p>
                     <div className="row justify-content-between mx-0">
-                        {userLink()}
+                        {!auth.user || auth.user.role !== 'admin' ? userLink() : adminLink()}
                     </div>
                 </div>
             </div>
