@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { DataContext } from '../../store/GlobalState'
 import { addToCart } from '../../store/Actions'
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, handleCheck }) => {
 
     const { state, dispatch } = useContext(DataContext)
     const { cart, auth } = state
@@ -28,9 +28,13 @@ const ProductItem = ({ product }) => {
                 <Link href={`/create/${product._id}`}>
                     <a className="btn btn-info mr-1 flex-fill">Edit</a>
                 </Link>
-                <button className="btn btn-danger ml-1 flex-fill">
-                    Delete
-                </button>
+                <button className="btn btn-danger ml-1 flex-fill"
+                data-toggle="modal" data-target="#exampleModal"
+                                onClick={() => dispatch({
+                                    type: 'ADD_MODAL',
+                                    payload: [{data: '', id: product._id, title: product.title, type: 'DELETE_PRODUCT'}]
+                                })}
+                >Delete</button>
             </>
         )
     }
@@ -38,6 +42,12 @@ const ProductItem = ({ product }) => {
     return (
         <div className="products">
             <div className="card">
+                {
+                    auth.user && auth.user.role === 'admin' &&
+                    <input type="checkbox" checked={product.checked} 
+                    className="position-absolute" onChange={() => handleCheck(product._id)}
+                    style={{ width: '30px', height: '20px'}}/>
+                }
                 <img className="card-img-top img-fluid" src={product.images[0].url} alt="Card image cap" />
                 <div className="card-body">
                     <h5 className="card-title text-capitalize">{product.title}</h5>

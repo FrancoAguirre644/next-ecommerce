@@ -9,26 +9,50 @@ const Modal = () => {
 
     const { modal, auth } = state
 
+    const deleteUser = (item) => {
+        dispatch(deleteItem(item.data, item.id, item.type))
+        deleteData(`user/${item.id}`, auth.token) 
+        .then(res => {
+            if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
+            return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
+        })
+    }
+
+    const deleteCategory = (item) => {
+        dispatch(deleteItem(item.data, item.id, item.type))
+        deleteData(`category/${item.id}`, auth.token) 
+        .then(res => {
+            if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
+            return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
+        })
+    }
+
+    const deleteProduct = (item) => {
+        dispatch({type: 'NOTIFY', payload: {loading: true}})
+        deleteData(`product/${item.id}`, auth.token) 
+        .then(res => {
+            if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
+            return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
+        })
+    }
+
     const handleSubmit = () => {
 
-        if(modal.type === 'ADD_USERS') {
-            deleteData(`user/${modal.id}`, auth.token) 
-            .then(res => {
-                if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
-                return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
-            })
+        if(modal.length !== 0) {
+
+            for(const item of modal) {
+                if(item.type === 'ADD_USERS') deleteUser(item)
+        
+                if(item.type === 'ADD_CATEGORIES') deleteCategory(item)
+        
+                if(item.type === 'DELETE_PRODUCT') deleteProduct(item)
+
+                dispatch({ type: 'ADD_MODAL', payload: [] })
+
+            }
+
         }
 
-        if(modal.type === 'ADD_CATEGORIES') {
-            deleteData(`category/${modal.id}`, auth.token) 
-            .then(res => {
-                if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
-                return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
-            })
-        }
-
-        dispatch(deleteItem(modal.data, modal.id, modal.type))
-        dispatch({ type: 'ADD_MODAL', payload: {} })
     }
 
     return (
@@ -36,7 +60,7 @@ const Modal = () => {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title text-capitalize" id="exampleModalLabel">{modal.title}</h5>
+                        <h5 className="modal-title text-capitalize" id="exampleModalLabel">{modal.length !==0 && modal[0].title}</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
