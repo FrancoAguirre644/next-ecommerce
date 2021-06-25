@@ -45,7 +45,7 @@ const updateProduct = async (req, res) => {
         if (!title || !price || !inStock || !description || !content || !category === 'all' || images.length === 0)
             return res.status(400).json({ err: 'Please add all fields.' })
 
-        await Products.findOneAndUpdate({ _id: id }, { title, price, inStock, description, content, category, images })
+        await Products.findOneAndUpdate({ _id: id }, { title: title.toLowerCase(), price, inStock, description, content, category, images })
 
         res.json({msg: 'Success! Updated a product.'})
 

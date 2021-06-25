@@ -106,45 +106,46 @@ const Profile = () => {
             <div className="row my-3">
 
                 <div className="col-md-4">
-                    <h3 className="text-center text-uppercase">
-                        {auth.user.role === 'user' ? 'User Profile' : 'Admin Profile'}
-                    </h3>
+                    <div className="card shadow p-3">
+                        <h3 className="text-center text-uppercase">
+                            {auth.user.role === 'user' ? 'User Profile' : 'Admin Profile'}
+                        </h3>
 
-                    <div className="avatar">
-                        <img height="150" src={avatar ? URL.createObjectURL(avatar) : auth.user.avatar} alt={avatar} />
-                        <span>
-                            <i className="fas fa-camera"></i>
-                            <p>Change</p>
-                            <input type="file" name="file" id="file_up"
-                                accept="image/*" onChange={changeAvatar} />
-                        </span>
+                        <div className="avatar">
+                            <img height="150" src={avatar ? URL.createObjectURL(avatar) : auth.user.avatar} alt={avatar} />
+                            <span>
+                                <i className="fas fa-camera"></i>
+                                <p>Change</p>
+                                <input type="file" name="file" id="file_up"
+                                    accept="image/*" onChange={changeAvatar} />
+                            </span>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Name</label>
+                            <input type="text" className="form-control" value={name} name="name" placeholder="Your name" onChange={handleChange} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input type="text" className="form-control" disabled={true} defaultValue={auth.user.email} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="password" className="form-control" value={password} name="password" placeholder="Your new password" onChange={handleChange} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" className="form-control" value={cf_password} name="cf_password" placeholder="Confirm your new password" onChange={handleChange} />
+                        </div>
+
+                        <button className="btn btn-info" onClick={(e) => handleUpdateProfile(e)}>Update</button>
                     </div>
-
-                    <div className="form-group">
-                        <label>Name</label>
-                        <input type="text" className="form-control" value={name} name="name" placeholder="Your name" onChange={handleChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Email</label>
-                        <input type="text" className="form-control" disabled={true} defaultValue={auth.user.email} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" className="form-control" value={password} name="password" placeholder="Your new password" onChange={handleChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" className="form-control" value={cf_password} name="cf_password" placeholder="Confirm your new password" onChange={handleChange} />
-                    </div>
-
-                    <button className="btn btn-info" onClick={(e) => handleUpdateProfile(e)}>Update</button>
-
                 </div>
 
-                <div className="col-md-8 table-responsive">
+                <div className="col-md-8 table-responsive p-3">
                     <h3 className="text-uppercase">Orders</h3>
                     <div className="my-3">
                         <table className="table-bordered table-hover w-100 text-uppercase"

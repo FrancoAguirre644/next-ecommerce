@@ -54,7 +54,7 @@ const Categories = () => {
                 <title>Categories</title>
             </Head>
 
-            <div className="input-group mb-3">
+            <div class="card-header shadow bg-white d-flex align-items-center justify-content-between border-bottom-pink">
 
                 <input type="text" className="form-control"
                     placeholder="Add new Category" value={name}
@@ -66,7 +66,7 @@ const Categories = () => {
 
             {
                 categories.map(category => (
-                    <div key={category._id} className="card my-2 text-capitalize">
+                    <div key={category._id} className="card text-capitalize">
                         <div className="card-body d-flex justify-content-between">
                             {category.name}
 
@@ -83,6 +83,9 @@ const Categories = () => {
                             </div>
 
                         </div>
+
+                        <hr/>
+                    
                     </div>
                 ))
             }

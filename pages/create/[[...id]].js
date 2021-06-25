@@ -129,7 +129,7 @@ const ProductsManager = () => {
                 <title>Products Manager</title>
             </Head>
 
-            <form className="row my-3" onSubmit={handleSubmit}>
+            <form className="row shadow p-3 my-3" onSubmit={handleSubmit}>
 
                 <div className="col-md-6">
 
@@ -165,7 +165,7 @@ const ProductsManager = () => {
                             <option value="all">All products</option>
                             {
                                 categories.map(category => (
-                                    <option value={category.name} key={category._id}>{category.name}</option>
+                                    <option value={category._id} key={category._id}>{category.name}</option>
                                 ))
                             }
                         </select>

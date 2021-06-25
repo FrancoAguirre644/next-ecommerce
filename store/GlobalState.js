@@ -27,18 +27,18 @@ export const DataProvider = ({ children }) => {
                 })
 
             })
-            
-            getData('category').then(res => {
-                if (res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
-                
-                dispatch({
-                    type: "ADD_CATEGORIES",
-                    payload: res.categories
-                })
-
-            }) 
-
         }
+
+        getData('category').then(res => {
+            if (res.err) return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
+
+            dispatch({
+                type: "ADD_CATEGORIES",
+                payload: res.categories
+            })
+
+        })
+
     }, [])
 
     useEffect(() => {
@@ -53,13 +53,13 @@ export const DataProvider = ({ children }) => {
 
     useEffect(() => {
         if (auth.token) {
-            
-            getData('order', auth.token)
-            .then(res => {
-                if (res.err) return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
 
-                dispatch({ type: 'ADD_ORDERS', payload: res.orders })
-            }) 
+            getData('order', auth.token)
+                .then(res => {
+                    if (res.err) return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
+
+                    dispatch({ type: 'ADD_ORDERS', payload: res.orders })
+                })
 
             if (auth.user.role === 'admin') {
                 getData('user', auth.token)

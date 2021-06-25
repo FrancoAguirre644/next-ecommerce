@@ -1,5 +1,6 @@
 import connectDB from '../../../utils/connectDB'
 import Categories from '../../../models/categoryModel'
+import Products from '../../../models/productModel'
 import auth from '../../../middleware/auth'
 
 connectDB()
@@ -46,6 +47,10 @@ const deleteCategory = async (req, res) => {
         if (result.role !== 'admin') return res.status(400).json({ err: 'Authentication is not valid.' })
 
         const { id } = req.query
+
+        const product = await Products.findOne({category: id})
+
+        if(product) return res.status(400).json({err: 'Please delete all products with a relationship'})
 
         await Categories.findByIdAndDelete(id)
 

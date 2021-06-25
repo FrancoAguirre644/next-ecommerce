@@ -5,6 +5,7 @@ import ProductItem from '../components/product/productItem'
 import Head from 'next/head'
 import filterSearch from '../utils/filterSearch'
 import { useRouter } from 'next/router'
+import Filter from '../components/Filter'
 
 const Home = (props) => {
 
@@ -56,11 +57,7 @@ const Home = (props) => {
   }, [props.products])
 
   useEffect(() => {
-    if(Object.keys(router.query).length === 0) {
-      setPage(1)
-    } else {
-      setPage(Number(router.query.page))
-    }
+    if(Object.keys(router.query).length === 0) setPage(1)
   }, [router.query])
 
   return (
@@ -68,6 +65,8 @@ const Home = (props) => {
       <Head>
         <title>Home</title>
       </Head>
+
+      <Filter state={state} />
 
       {
         auth.user && auth.user.role === 'admin' && 
@@ -82,20 +81,18 @@ const Home = (props) => {
         </div>
       }
 
-      {
-        products.length === 0 ?
-          <h1>No products</h1>
+      <div className="products">
+
+        {
+          products.length === 0 ?
+            <h2>No products</h2>
           :
-          <div className="row justify-content-center mt-4">
-            {
-              products.map(product => (
-                <div className="col-md-3" key={product._id}>
-                  <ProductItem product={product} handleCheck={handleCheck}/>
-                </div>
-              ))
-            }
-          </div>
-      }
+            products.map(product => (
+              <ProductItem key={product._id} product={product} handleCheck={handleCheck}/>
+            ))
+        }
+
+    </div>
 
       {
         props.result < page * 3 ? ""

@@ -40,30 +40,35 @@ const ProductItem = ({ product, handleCheck }) => {
     }
 
     return (
-        <div className="products">
-            <div className="card">
-                {
-                    auth.user && auth.user.role === 'admin' &&
-                    <input type="checkbox" checked={product.checked} 
-                    className="position-absolute" onChange={() => handleCheck(product._id)}
-                    style={{ width: '30px', height: '20px'}}/>
-                }
-                <img className="card-img-top img-fluid" src={product.images[0].url} alt="Card image cap" />
-                <div className="card-body">
-                    <h5 className="card-title text-capitalize">{product.title}</h5>
-                    <div className="row justify-content-between mx-0">
-                        <h6>${product.price}</h6>
-                        {
-                            product.inStock > 0 ?
-                                <h6 className="text-success">Stock: {product.inStock}</h6>
-                                :
-                                <h6 className="text-danger">Stock: Out Stock</h6>
-                        }
-                    </div>
-                    <p className="card-text">{product.description}</p>
-                    <div className="row justify-content-between mx-0">
-                        {!auth.user || auth.user.role !== 'admin' ? userLink() : adminLink()}
-                    </div>
+        <div className="card complete-shadow" style={{ width: '18rem' }}>
+            {
+                auth.user && auth.user.role === 'admin' &&
+                <input type="checkbox" checked={product.checked}
+                className="position-absolute"
+                style={{height: '20px', width: '20px'}}
+                onChange={() => handleCheck(product._id)} />
+            }
+            <img className="card-img-top" src={product.images[0].url} alt={product.images[0].url} />
+            <div className="card-body">
+                <h5 className="card-title text-capitalize" title={product.title}>
+                    {product.title}
+                </h5>
+
+                <div className="row justify-content-between mx-0">
+                    <h6 className="text-danger">${product.price}</h6>
+                    {
+                        product.inStock > 0
+                        ? <h6 className="text-danger">In Stock: {product.inStock}</h6>
+                        : <h6 className="text-danger">Out Stock</h6>
+                    }
+                </div>
+
+                <p className="card-text" title={product.description}>
+                    {product.description}
+                </p>
+                    
+                <div className="row justify-content-between mx-0">
+                    {!auth.user || auth.user.role !== "admin" ? userLink() : adminLink()}
                 </div>
             </div>
         </div>
