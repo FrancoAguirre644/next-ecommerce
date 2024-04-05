@@ -45,7 +45,7 @@ const OrderDetail = ({ orderDetail, state, dispatch }) => {
                                 <div className={`alert ${order.delivered ? 'alert-success' : 'alert-danger'}
                                 d-flex justify-content-between align-items-center`}>
                                     {
-                                        order.delivered ? `Delivered on ${order.updatedAt}` : 'Not Delivered'
+                                        order.delivered ? `Delivered on ${new Date(order.updatedAt).toLocaleString('es-ES')}` : 'Not Delivered'
                                     }
                                     {
                                         auth.user.role === 'admin' && !order.delivered &&
@@ -66,7 +66,7 @@ const OrderDetail = ({ orderDetail, state, dispatch }) => {
                                 <div className={`alert ${order.paid ? 'alert-success' : 'alert-danger'}
                                 d-flex justify-content-between align-items-center`}>
                                     {
-                                        order.paid ? `Paid on ${order.dateOfPayment}` : 'Not Paid'
+                                        order.paid ? `Paid on ${new Date(order.dateOfPayment).toLocaleString('es-ES')}` : 'Not Paid'
                                     }
 
                                 </div>
@@ -83,7 +83,7 @@ const OrderDetail = ({ orderDetail, state, dispatch }) => {
                                                 />
 
                                                 <h5 className="flex-fill text-secondary px-3 text-capitalize m-0">
-                                                    <Link href={`product/${item._id}`}>
+                                                    <Link href={`/product/${item._id}`}>
                                                         <a className="text-secondary">{item.title}</a>
                                                     </Link>
                                                 </h5>
